@@ -2,17 +2,29 @@
 source code of EvolOs
  --- dev branch ---
 
- ## Système de branche
+ ## Branch System
 
-Main : la où le code est en prod / stable
+* **Main** : Main branch, containing production/stable code.
 
-&nbsp;&nbsp;-> **Dev** : la où les features complètes sont merges, et le code reste à être éprouver avant de passer sur main
+    *  **Dev** : Development branch where completed features are merged. The code remains to be tested before moving to the main branch.
 
-&nbsp;&nbsp;&nbsp;&nbsp;-> **Feature_$numéro attribué sur Notion$_$nom donné sur le Notion à la feature$** : la où il y aura les features principales (ex: distro, logiciel, ...)
+        * **Feature\_$number assigned on Notion$\_$name given on Notion to the feature$** : Branch dedicated to main features (e.g., distribution, software, etc.).
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> **F_$numéro attribué sur Notion$_$fonctionnalités pour la feature$** : le nom est assez explicite I think
+            * **F\_$number assigned on Notion$\_$sub-features for the feature$** : Branch dedicated to sub-features of main features.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> **F_$numéro attribué sur Notion$_fix_$ $fonctionnalités pour la feature$ $** : si jamais il y a un soucis pour une fonctionnalité, on passe par sa branche de base, on créé celle la, et ensuite on merge tout en cascade
+                * **F\_$number assigned on Notion$\_fix\_$sub-features for the feature$** : Branch dedicated to fixing a sub-feature. It is created in case of an issue and merged back once resolved.
 
-A voir plus tard pour les versions
+ ## Commit System
+Use the following tags in your commit messages to quickly indicate the action performed:
+
+`ADD -` : When adding a new feature  
+`UPDATE -` : When modifying an existing feature  
+`DELETE -` : When deleting a feature  
+`OPTI -` : When optimizing code without functional changes  
+`MERGE -` : When performing a merge
+
+To remove unnecessary logs or test features, please use the amend command:  
+`git commit --amend && git push --force`  
+In case of an error or to refine a commit same command.
+
   
