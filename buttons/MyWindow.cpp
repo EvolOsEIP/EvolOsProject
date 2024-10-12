@@ -1,20 +1,18 @@
 #include "MyWindow.hpp"
 
-MyWindow::MyWindow() : m_button("Hello World")
+MyWindow::MyWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
+  : Gtk::Window(cobject)
 {
-  set_title("Hello World");
-  set_default_size(400, 200);
-  std::cout << "Initiating MyWindow" << std::endl;
+  // Get the GtkBuilder-instantiated Button, and connect a signal handler:
+  Gtk::Button* pButton = nullptr;
+  refBuilder->get_widget("cta_button", pButton);
+  if(pButton) {
+    std::cout << "Found button1" << std::endl;
+  }
 
-  m_button.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::on_button_clicked));
-  add(m_button);
+  m_button = std::make_shared<CTAButton>(pButton);
+
   show_all();
-}
-
-
-void MyWindow::on_button_clicked()
-{
-  std::cout << "Hello World" << std::endl;
 }
 
 MyWindow::~MyWindow()
