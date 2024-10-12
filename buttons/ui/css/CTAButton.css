@@ -1,0 +1,9 @@
+/* Css for the CTAButton component GTK::Button (id is cta_button) */
+#cta_button {
+  background-image: none;
+  color: #fff;
+  background-color: #227c9d;
+  padding: 20px 32px;
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0 rgb(0.14509804546833038, 0.1725490242242813, 0.3803921639919281), 0px 2px 4px 0 rgb(0.5333333611488342, 0.5647059082984924, 0.7607843279838562);
+}

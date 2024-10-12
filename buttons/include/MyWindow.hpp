@@ -10,7 +10,6 @@
 
 #define APP_NAME "org.evolosCTA.application"
 
-#define CTA_BUTTON_UI_FILE "../ui/CTAButton.ui"
 
 class MyWindow : public Gtk::Window {
   public:
