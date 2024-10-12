@@ -2,20 +2,23 @@
 #include <iostream>
 #include <string>
 #include <gtkmm.h>
+#include <gtkmm/builder.h>
+#include <memory>
 
 #include "buttons/Button.hpp"
+#include "buttons/CTAButton.hpp"
 
 #define APP_NAME "org.evolosCTA.application"
 
-class MyWindow : public Gtk::ApplicationWindow {
+#define CTA_BUTTON_UI_FILE "../ui/CTAButton.ui"
+
+class MyWindow : public Gtk::Window {
   public:
-      MyWindow();
+      MyWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
       virtual ~MyWindow();
 
       void on_button_clicked();
   protected:
-
-      // add  a button
-      Button m_button;
-
+      std::shared_ptr<CTAButton> m_button;
 };
+
