@@ -2,19 +2,20 @@
 
 CTAButton::CTAButton(const std::string &text, const std::string &url) : Button(text, url)
 {
-  std::cout << "Creating CTAButton" << std::endl;
-  std::cout << "Text: " << m_label << std::endl;
-  std::cout << "URL: " << m_url << std::endl;
+  this->init();
 }
 
 CTAButton::CTAButton(Gtk::Button *button) : Button(button)
 {
-  std::cout << "Creating CTAButton" << std::endl;
-  std::cout << "Text: " << m_label << std::endl;
-  std::cout << "URL: " << m_url << std::endl;
-
   // Connect the signal handler
   m_button->signal_clicked().connect(sigc::mem_fun(*this, &CTAButton::onClick));
+  this->init();
+}
+
+void CTAButton::init()
+{
+  std::cout << "CTAButton initialized" << std::endl;
+  this->applyStyle(CTA_BUTTON_STYLE);
 }
 
 void CTAButton::render() const

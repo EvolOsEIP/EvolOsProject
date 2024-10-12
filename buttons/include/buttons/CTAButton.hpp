@@ -3,6 +3,8 @@
 #include "Button.hpp"
 #include <memory>
 
+#define CTA_BUTTON_STYLE "../ui/css/CTAButton.css"
+
 class CTAButton : public Button
 {
   public:
@@ -11,6 +13,7 @@ class CTAButton : public Button
 
       virtual ~CTAButton() = default;
 
+      void init();
       void render() const override;
       void onClick() override;
 
