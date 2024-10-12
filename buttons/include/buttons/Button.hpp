@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#define CTA_BUTTON_UI_FILE "../ui/CTAButton.ui"
+
 class Button
 {
   public:
@@ -11,8 +13,11 @@ class Button
     Button(Gtk::Button *button);
     virtual ~Button();
 
+    virtual void init() = 0;
     virtual void onClick();
     virtual void render() const;
+
+    void applyStyle(const std::string &cssFilename);
 
   protected:
     void on_button_clicked();
