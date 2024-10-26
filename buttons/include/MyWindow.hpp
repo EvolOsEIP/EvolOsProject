@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <string>
 #include <gtkmm.h>
@@ -6,7 +7,17 @@
 #include <memory>
 
 #include "buttons/Button.hpp"
-#include "buttons/CTAButton.hpp"
+// check if BUTTON_TYPE is defined and include the correct button
+
+#ifdef CTA_BUTTON
+  #include "buttons/CTAButton.hpp"
+  #define BUTTON_TYPE CTAButton
+  #define WIDGET_NAME "cta_button"
+#elif defined(TOGGLE_BUTTON)
+  #include "buttons/ToggleButton.hpp"
+  #define BUTTON_TYPE ToggleButton
+  #define WIDGET_NAME "toggle_button"
+#endif
 
 #define APP_NAME "org.evolosCTA.application"
 
@@ -18,6 +29,6 @@ class MyWindow : public Gtk::Window {
 
       void on_button_clicked();
   protected:
-      std::shared_ptr<CTAButton> m_button;
+      std::shared_ptr<Button> m_button;
 };
 
