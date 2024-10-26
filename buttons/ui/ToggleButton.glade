@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="example_window">
+    <property name="name">example_window</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkSwitch" id="toggle_button">
+            <property name="name">toggle_button</property>
+            <property name="width-request">61</property>
+            <property name="height-request">29</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <signal name="state-set" handler="on_toggle_button_state_set" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">97</property>
+            <property name="y">109</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

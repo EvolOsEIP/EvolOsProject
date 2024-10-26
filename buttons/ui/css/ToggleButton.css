@@ -1,0 +1,10 @@
+#toggle_button {
+  background-image: none;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+#toggle_button:checked {
+  background-color: #7FD1B9;
+}
+
