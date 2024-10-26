@@ -5,7 +5,7 @@ Button::Button(const std::string &label, const std::string &url) : m_label(label
   std::cout << "[*] Button was created" << std::endl;
 }
 
-Button::Button(Gtk::Button *button) : m_button(button)
+Button::Button(BUTTON_CLASS *button) : m_button(button)
 {
   std::cout << "[*] Button was created" << std::endl;
 }
@@ -26,7 +26,7 @@ void Button::applyStyle(const std::string &cssFilename)
 
   try {
     css->load_from_path(cssFilename);
-    std::cout << "[*] CSS file was loaded" << std::endl;
+    std::cout << "[*] CSS file was loaded: " << cssFilename << std::endl;
   } catch (const Gtk::CssProviderError &e) {
     std::cerr << "Error loading CSS file: " << e.what() << std::endl;
   } catch (const Glib::FileError &e) {
