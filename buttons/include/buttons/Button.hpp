@@ -4,13 +4,20 @@
 #include <iostream>
 #include <string>
 
-#define CTA_BUTTON_UI_FILE "../ui/CTAButton.ui"
+#define CTA_BUTTON_UI_FILE "../ui/CTAButton.glade"
+#define TOGGLE_BUTTON_UI_FILE "../ui/ToggleButton.glade"
+
+#ifdef TOGGLE_BUTTON
+    #define BUTTON_CLASS Gtk::Switch
+#elif defined(CTA_BUTTON)
+    #define BUTTON_CLASS Gtk::Button
+#endif
 
 class Button
 {
   public:
     Button(const std::string &label, const std::string &url);
-    Button(Gtk::Button *button);
+    Button(BUTTON_CLASS *button);
     virtual ~Button();
 
     virtual void init() = 0;
@@ -23,6 +30,6 @@ class Button
     void on_button_clicked();
     std::string m_label;
     std::string m_url;
-    Gtk::Button *m_button;
+    BUTTON_CLASS *m_button;
 };
 
