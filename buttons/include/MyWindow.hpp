@@ -7,7 +7,6 @@
 #include <memory>
 
 #include "buttons/Button.hpp"
-// check if BUTTON_TYPE is defined and include the correct button
 
 #ifdef CTA_BUTTON
   #include "buttons/CTAButton.hpp"
@@ -17,6 +16,10 @@
   #include "buttons/ToggleButton.hpp"
   #define BUTTON_TYPE ToggleButton
   #define WIDGET_NAME "toggle_button"
+#elif defined(FLOATING_BUTTON)
+  #include "buttons/FloatingButton.hpp"
+  #define BUTTON_TYPE FloatingButton
+  #define WIDGET_NAME "floating_button"
 #endif
 
 #define APP_NAME "org.evolosCTA.application"
