@@ -12,6 +12,8 @@ FloatingButton::FloatingButton(Gtk::Button *button) : Button(button)
 
 void FloatingButton::init()
 {
+  std::cout << "FloatingButton::init()" << std::endl;
+  this->applyStyle(FLOATING_BUTTON_STYLE);
 }
 
 void FloatingButton::render() const

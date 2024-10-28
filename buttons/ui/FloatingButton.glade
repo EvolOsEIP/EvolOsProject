@@ -16,9 +16,9 @@
             <property name="can-focus">False</property>
             <child>
               <object class="GtkButton" id="floating_button">
-                <property name="label" translatable="yes">button</property>
+                <property name="label" translatable="yes">+</property>
                 <property name="name">floating_button</property>
-                <property name="width-request">73</property>
+                <property name="width-request">55</property>
                 <property name="height-request">55</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
