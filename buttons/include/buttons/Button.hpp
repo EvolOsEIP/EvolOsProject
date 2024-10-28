@@ -6,10 +6,11 @@
 
 #define CTA_BUTTON_UI_FILE "../ui/CTAButton.glade"
 #define TOGGLE_BUTTON_UI_FILE "../ui/ToggleButton.glade"
+#define FLOATING_BUTTON_UI_FILE "../ui/FloatingButton.glade"
 
 #ifdef TOGGLE_BUTTON
     #define BUTTON_CLASS Gtk::Switch
-#elif defined(CTA_BUTTON)
+#elif defined(NORMAL_BUTTON)
     #define BUTTON_CLASS Gtk::Button
 #endif
 
