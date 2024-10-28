@@ -6,6 +6,7 @@ file(GLOB_RECURSE WINDOW_SOURCES "MyWindow.cpp")
 file(GLOB_RECURSE BUTTON_SOURCES "Button.cpp")
 file(GLOB_RECURSE CTA_SOURCES "cta/*.cpp")
 file(GLOB_RECURSE TOGGLE_SOURCES "toggle/*.cpp")
+file(GLOB_RECURSE FLOATING_SOURCES "floating/*.cpp")
 
 # add gtkmm
 find_package(PkgConfig REQUIRED)
@@ -16,10 +17,18 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 
 # add executable cta
 add_executable(cta_buttons ${WINDOW_SOURCES} ${BUTTON_SOURCES} ${CTA_SOURCES})
-target_compile_definitions(cta_buttons PRIVATE CTA_BUTTON)
+target_compile_definitions(cta_buttons PRIVATE NORMAL_BUTTON CTA_BUTTON)
+target_compile_options(cta_buttons PRIVATE -W -Wall -Wextra -Werror)
 target_link_libraries(cta_buttons ${GTKMM_LIBRARIES})
+
+# add executable floating
+add_executable(floating_buttons ${WINDOW_SOURCES} ${BUTTON_SOURCES} ${FLOATING_SOURCES})
+target_compile_definitions(floating_buttons PRIVATE NORMAL_BUTTON FLOATING_BUTTON)
+target_compile_options(cta_buttons PRIVATE -W -Wall -Wextra -Werror)
+target_link_libraries(floating_buttons ${GTKMM_LIBRARIES})
 
 # add executable toggle
 add_executable(toggle_buttons ${WINDOW_SOURCES} ${BUTTON_SOURCES} ${TOGGLE_SOURCES})
 target_compile_definitions(toggle_buttons PRIVATE TOGGLE_BUTTON)
+target_compile_options(cta_buttons PRIVATE -W -Wall -Wextra -Werror)
 target_link_libraries(toggle_buttons ${GTKMM_LIBRARIES})
