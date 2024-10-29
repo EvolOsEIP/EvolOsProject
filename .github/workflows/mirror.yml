@@ -8,7 +8,7 @@ jobs:
   mirror_repo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Get the current information of the repo
         uses: actions/checkout@v4
 
       - name: Set up Bot
@@ -25,6 +25,8 @@ jobs:
           SCHOOL_REPO_A: ${{ secrets.SCHOOL_REPO_A}}
         run: |
           git remote set-url --push origin https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
-          git push --mirror
+          git remote -v 
+          
+          #git push --mirror
 
       - run: echo "Job status is ${{ job.status }}."
