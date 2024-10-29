@@ -24,7 +24,8 @@ jobs:
         env:
           SCHOOL_REPO_A: ${{ secrets.SCHOOL_REPO_A}}
         run: |
-          #git remote add epitech https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
+          git remote add epitech https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
+          git push --mirror epitech
           git remote -v
-          #git push --mirror epitech
+
       - run: echo "Job status is ${{ job.status }}."
