@@ -25,7 +25,7 @@ jobs:
           SCHOOL_REPO_A: ${{ secrets.SCHOOL_REPO_A}}
         run: |
           git remote set-url --push origin https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
-          git push --mirror epitech
+          git push --mirror
           git remote -v
 
       - run: echo "Job status is ${{ job.status }}."
