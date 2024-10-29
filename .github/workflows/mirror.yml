@@ -19,6 +19,8 @@ jobs:
       - name: Fetch content
         run: |
           git fetch -p origin
+          git ls-remote https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
+          
 
       - name: Push on Epitech repo
         env:
