@@ -1,0 +1,27 @@
+name: Mirror Evol'Os to Epitech Repo
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  mirror_repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Mirror
+        env:
+          SCHOOL_REPO_A: ${{ secrets.SCHOOL_REPO_A}}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # URL de destination
+          git remote add mirror "https://x-access-token:${SCHOOL_REPO_A}@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
+                    
+          git push --mirror mirror
+      - run: echo "Job status is ${{ job.status }}."
+
