@@ -8,6 +8,9 @@ jobs:
   mirror_repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Set up Bot
         run: |
           git config --global user.name "github-actions[bot]"
@@ -15,7 +18,6 @@ jobs:
 
       - name: Fetch content
         run: |
-          git remote add origin "https://github.com/EvolOsEIP/EvolOsProject.git"
           git fetch -p origin
 
       - name: Push on Epitech repo
