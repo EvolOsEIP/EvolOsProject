@@ -8,14 +8,20 @@ jobs:
   mirror_repo:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Mirror
-        env:
-          SCHOOL_REPO_A: ${{ secrets.SCHOOL_REPO_A }}
-
+      - name: Set up Bot
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git ls-remote https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
+
+      - name: Fetch content
+        run: |
+          git remote add origin "https://github.com/EvolOsEIP/EvolOsProject.git"
+          git fetch -p origin
+
+      - name: Push on Epitech repo
+        env:
+          SCHOOL_REPO_A: ${{secrets.SCHOOL_REPO_A}}
+        run: |
+          git remote set-url --push origin "https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
+          git push --mirror
       - run: echo "Job status is ${{ job.status }}."
