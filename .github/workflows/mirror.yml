@@ -26,5 +26,5 @@ jobs:
         run: |
           git remote add epitech https://github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
           git remote -v
-          git push --mirror epitech
+          #git push --mirror epitech
       - run: echo "Job status is ${{ job.status }}."
