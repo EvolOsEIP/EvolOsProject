@@ -21,7 +21,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # URL de destination
-          git remote add mirror "https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
-
-          git push --mirror mirror
+          # git remote add mirror "https://x-access-token:$SCHOOL_REPO_A@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
+          git ls-remote "https://x-access-token:${SCHOOL_REPO_A}@github.com/EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
+          # git push --mirror mirror
       - run: echo "Job status is ${{ job.status }}."
