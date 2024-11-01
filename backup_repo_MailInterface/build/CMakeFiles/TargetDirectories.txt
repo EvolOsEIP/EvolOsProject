@@ -1,3 +1,0 @@
-/home/seb/code/evolos/EvolosDesktopApplication/build/CMakeFiles/EvolosDesktopApplication.dir
-/home/seb/code/evolos/EvolosDesktopApplication/build/CMakeFiles/edit_cache.dir
-/home/seb/code/evolos/EvolosDesktopApplication/build/CMakeFiles/rebuild_cache.dir
