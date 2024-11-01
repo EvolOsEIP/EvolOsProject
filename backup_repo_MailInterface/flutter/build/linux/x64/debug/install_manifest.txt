@@ -1,0 +1,12 @@
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/mailinterface
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/seb/code/evolos/EvolosDesktopApplication/flutter/build/linux/x64/debug/bundle/data/flutter_assets/version.json
