@@ -3,32 +3,28 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MailManagerApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class MailManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Email Sender',
+      title: 'Mail Manager',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const EmailSenderScreen(),
+      home: MailManagerHome(),
     );
   }
 }
 
-class EmailSenderScreen extends StatefulWidget {
-  const EmailSenderScreen({Key? key}) : super(key: key);
-
+class MailManagerHome extends StatefulWidget {
   @override
-  _EmailSenderScreenState createState() => _EmailSenderScreenState();
+  _MailManagerHomeState createState() => _MailManagerHomeState();
 }
 
-class _EmailSenderScreenState extends State<EmailSenderScreen> {
+class _MailManagerHomeState extends State<MailManagerHome> {
   final TextEditingController _senderController = TextEditingController();
   final TextEditingController _recipientController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
@@ -64,50 +60,108 @@ class _EmailSenderScreenState extends State<EmailSenderScreen> {
         SnackBar(content: Text('Error: ${response.body}')),
       );
     }
-  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Send Email'),
+        title: Text("Mail Manager"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _senderController,
-              decoration: const InputDecoration(
-                labelText: 'Sender Email (e.g., test@localhost)',
-              ),
+      body: Row(
+        children: [
+          // Sidebar
+          Container(
+            width: 200,
+            color: Color(0xFFB09E99),
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text("Inbox"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text("Sent"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text("Drafts"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text("Trash"),
+                  onTap: () {},
+                ),
+              ],
             ),
-            TextField(
-              controller: _recipientController,
-              decoration: const InputDecoration(
-                labelText: 'Recipient Email (e.g., recipient@localhost)',
-              ),
+          ),
+          // Main Content
+          Expanded(
+            child: Column(
+              children: [
+                // Mail List
+                Expanded(
+                  child: Container(
+                    color: Color(0xFF7FD1B9),
+                    child: ListView.builder(
+                      itemCount: 10, // Placeholder for emails
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text("Mail Subject $index"),
+                          subtitle: Text("Preview of the mail content."),
+                          onTap: () {
+                            // Add logic to display email
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                // Mail Composer
+                Container(
+                  color: Color(0xFFF6AE2D),
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _recipientController,
+                        decoration: InputDecoration(
+                          labelText: "To",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      TextField(
+                        controller: _subjectController,
+                        decoration: InputDecoration(
+                          labelText: "Subject",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      TextField(
+                        controller: _bodyController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          labelText: "Compose email...",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: _sendEmail,
+                        child: Text("Send"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF227C9D),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: _subjectController,
-              decoration: const InputDecoration(
-                labelText: 'Subject',
-              ),
-            ),
-            TextField(
-              controller: _bodyController,
-              decoration: const InputDecoration(
-                labelText: 'Body',
-              ),
-              maxLines: 5,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _sendEmail,
-              child: const Text('Send Email'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
