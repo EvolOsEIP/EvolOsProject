@@ -29,6 +29,7 @@ class _MailManagerHomeState extends State<MailManagerHome> {
   final TextEditingController _recipientController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
+  String? _hoveredItem;
 
   Future<void> _sendEmail() async {
     final String sender = _senderController.text.trim();
@@ -62,36 +63,61 @@ class _MailManagerHomeState extends State<MailManagerHome> {
     }
 }
 
-  @override
-  Widget build(BuildContext context) {
+Widget _buildSidebarItem(String title) {
+  return MouseRegion(
+    onEnter: (_) => setState(() => _hoveredItem = title),
+    onExit: (_) => setState(() => _hoveredItem = null),
+    child: Container(
+      color: _hoveredItem == title ? Color(0xFFB09E8A) : Colors.transparent,
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        onTap: () {
+          // Action au clic sur l'élément
+        },
+      ),
+    ),
+  );
+}
+
+Widget _buildDivider() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: Divider(
+      thickness: 1.0,
+      color: Colors.black,
+    ),
+  );
+}
+
+@override
+Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Mail Manager"),
       ),
       body: Row(
         children: [
-          // Sidebar
-          Container(
+          Container( // Sidebar
             width: 200,
-            color: Color(0xFFB09E99),
+            color: Color(0xFFCCB0A3),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  title: Text("Inbox"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text("Sent"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text("Drafts"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text("Trash"),
-                  onTap: () {},
-                ),
+                _buildSidebarItem("Inbox"),
+                _buildDivider(),
+                _buildSidebarItem("New Mail"),
+                _buildDivider(),
+                _buildSidebarItem("Spam"),
+                _buildDivider(),
+                _buildSidebarItem("Profile"),
+                _buildDivider(),
               ],
             ),
           ),
