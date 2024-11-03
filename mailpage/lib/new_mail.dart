@@ -21,9 +21,7 @@ class _NewMailState extends State<NewMail> {
       body: _bodyController.text,
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(result)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
   }
 
   @override
@@ -36,43 +34,27 @@ class _NewMailState extends State<NewMail> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Selected: New Mail",
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Color(0xFF7FD1B9),
-            child: _buildEmailComposer(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEmailComposer() {
     return Container(
-      color: Color(0xFFF6AE2D),
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          _buildTextField(_recipientController, "To"),
-          SizedBox(height: 10),
-          _buildTextField(_subjectController, "Subject"),
-          SizedBox(height: 10),
-          _buildTextField(_bodyController, "Compose email...", maxLines: 5),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: _sendEmail,
-            child: Text("Send"),
-            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF227C9D)),
-          ),
-        ],
+      color: const Color(0xFFF5F3EE),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            _buildTextField(_recipientController, "To"),
+            const SizedBox(height: 10),
+            _buildTextField(_subjectController, "Subject"),
+            const SizedBox(height: 10),
+            _buildTextField(_bodyController, "Compose email...", maxLines: 5),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _sendEmail,
+              child: const Text("Send"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF227C9D),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

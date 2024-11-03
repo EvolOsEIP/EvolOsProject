@@ -28,7 +28,7 @@ class MailManagerHome extends StatefulWidget {
 class _MailManagerState extends State<MailManagerHome> {
 
   /* Side bar code */
-  String _selectedItem = "Inbox"; //default page display
+  String _selectedItem = "New Mail"; //default page display
   String? _hoveredItem;
   Widget _buildSidebarItem(String title) {
     return MouseRegion(
