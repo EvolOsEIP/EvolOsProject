@@ -92,10 +92,20 @@ class _NewMailState extends State<NewMail> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
             // Champ Subject
-            _buildTextField(_subjectController, "Subject"),
+            Row(
+              children: [
+                const Text("Re: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                const SizedBox(width: 5),
+                SizedBox(
+                  width: 935,
+                  height: 45,
+                  child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event"),
+                ),
+              ],
+            ),
             const SizedBox(height: 10),
 
             // Zone de rédaction et barre d'outils
