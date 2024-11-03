@@ -77,7 +77,10 @@ class _MailManagerState extends State<MailManagerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Mail Manager")),
+      appBar: AppBar(
+        title: const Text('Mail'),
+        backgroundColor: const Color(0xFF4A8577),
+      ),
       body: Row(
         children: [
           Container( // Sidebar
