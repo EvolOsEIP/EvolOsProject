@@ -48,10 +48,11 @@ class _NewMailState extends State<NewMail> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _sendEmail,
-              child: const Text("Send"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF227C9D),
+                backgroundColor: const Color(0xFF4A8577),
               ),
+              child: const Text("Send", style: TextStyle(color: Colors.white)),
+
             ),
           ],
         ),
