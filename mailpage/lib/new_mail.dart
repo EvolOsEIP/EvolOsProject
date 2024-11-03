@@ -2,15 +2,7 @@ import 'package:flutter/material.dart';
 import 'mail_service.dart';
 
 class NewMail extends StatefulWidget {
-  final TextEditingController recipientController;
-  final TextEditingController subjectController;
-  final TextEditingController bodyController;
-
-  NewMail({
-    required this.recipientController,
-    required this.subjectController,
-    required this.bodyController,
-  });
+  NewMail({Key? key}) : super(key: key);
 
   @override
   _NewMailState createState() => _NewMailState();
@@ -18,17 +10,28 @@ class NewMail extends StatefulWidget {
 
 class _NewMailState extends State<NewMail> {
   final EmailService _emailService = EmailService();
+  final TextEditingController _recipientController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _bodyController = TextEditingController();
 
   Future<void> _sendEmail() async {
     final result = await _emailService.sendEmail(
-      recipient: widget.recipientController.text,
-      subject: widget.subjectController.text,
-      body: widget.bodyController.text,
+      recipient: _recipientController.text,
+      subject: _subjectController.text,
+      body: _bodyController.text,
     );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(result)),
     );
+  }
+
+  @override
+  void dispose() {
+    _recipientController.dispose();
+    _subjectController.dispose();
+    _bodyController.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,11 +61,11 @@ class _NewMailState extends State<NewMail> {
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
-          _buildTextField(widget.recipientController, "To"),
+          _buildTextField(_recipientController, "To"),
           SizedBox(height: 10),
-          _buildTextField(widget.subjectController, "Subject"),
+          _buildTextField(_subjectController, "Subject"),
           SizedBox(height: 10),
-          _buildTextField(widget.bodyController, "Compose email...", maxLines: 5),
+          _buildTextField(_bodyController, "Compose email...", maxLines: 5),
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: _sendEmail,

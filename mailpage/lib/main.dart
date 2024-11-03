@@ -22,16 +22,14 @@ class MailManagerApp extends StatelessWidget {
 
 class MailManagerHome extends StatefulWidget {
   @override
-  _MailManagerHomeState createState() => _MailManagerHomeState();
+  _MailManagerState createState() => _MailManagerState();
 }
 
-class _MailManagerHomeState extends State<MailManagerHome> {
-  final TextEditingController _recipientController = TextEditingController();
-  final TextEditingController _subjectController = TextEditingController();
-  final TextEditingController _bodyController = TextEditingController();
-  String? _hoveredItem;
-  String _selectedItem = "Inbox";
+class _MailManagerState extends State<MailManagerHome> {
 
+  /* Side bar code */
+  String _selectedItem = "Inbox"; //default page display
+  String? _hoveredItem;
   Widget _buildSidebarItem(String title) {
     return MouseRegion(
       onEnter: (_) => setState(() => _hoveredItem = title),
@@ -60,16 +58,13 @@ class _MailManagerHomeState extends State<MailManagerHome> {
     );
   }
 
+  /* Page content code */
   Widget _buildMainContent() {
     switch (_selectedItem) {
       case "Inbox":
         return Inbox();
       case "New Mail":
-        return NewMail(
-          recipientController: _recipientController,
-          subjectController: _subjectController,
-          bodyController: _bodyController,
-        );
+        return NewMail();
       case "Spam":
         return Spam();
       case "Profile":
@@ -102,7 +97,6 @@ class _MailManagerHomeState extends State<MailManagerHome> {
               ],
             ),
           ),
-          // Main Content
           Expanded(child: _buildMainContent()),
         ],
       ),
