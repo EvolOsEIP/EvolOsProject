@@ -11,9 +11,7 @@ class MailManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mail Manager',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: MailManagerHome(),
     );
   }
@@ -30,78 +28,124 @@ class _MailManagerHomeState extends State<MailManagerHome> {
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   String? _hoveredItem;
+  String _selectedItem = "Inbox";
 
   Future<void> _sendEmail() async {
-    final String sender = _senderController.text.trim();
-    final String recipient = _recipientController.text.trim();
-    final String subject = _subjectController.text.trim();
-    final String body = _bodyController.text.trim();
-
-    final Map<String, dynamic> emailData = {
-      'sender': sender,
-      'recipient': recipient,
-      'subject': subject,
-      'body': body,
+    final emailData = {
+      'sender': _senderController.text.trim(),
+      'recipient': _recipientController.text.trim(),
+      'subject': _subjectController.text.trim(),
+      'body': _bodyController.text.trim(),
     };
 
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:5000/send-email'), // Flask server URL
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      Uri.parse('http://127.0.0.1:5000/send-email'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: json.encode(emailData),
     );
 
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email sent successfully!')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${response.body}')),
-      );
-    }
-}
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(response.statusCode == 200
+            ? 'Email sent successfully!'
+            : 'Error: ${response.body}'),
+      ),
+    );
+  }
 
-Widget _buildSidebarItem(String title) {
-  return MouseRegion(
-    onEnter: (_) => setState(() => _hoveredItem = title),
-    onExit: (_) => setState(() => _hoveredItem = null),
-    child: Container(
-      color: _hoveredItem == title ? Color(0xFFB09E8A) : Colors.transparent,
-      child: ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+  Widget _buildSidebarItem(String title) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hoveredItem = title),
+      onExit: (_) => setState(() => _hoveredItem = null),
+      child: Container(
+        color: _hoveredItem == title ? Color(0xFFB09E8A) : Colors.transparent,
+        child: ListTile(
+          title: Text( title,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          onTap: () => setState(() => _selectedItem = title),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Divider(thickness: 1.0, color: Colors.black),
+    );
+  }
+
+  Widget _buildMainContent() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Selected: $_selectedItem",
+            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
         ),
-        onTap: () {
-          // Action au clic sur l'élément
-        },
+        Expanded(
+          child: Container(
+            color: Color(0xFF7FD1B9),
+            child: ListView.builder(
+              itemCount: 10, // Placeholder for emails
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("Mail Subject $index"),
+                  subtitle: Text("Preview of the mail content."),
+                  onTap: () {
+                    // Add logic to display email
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        _buildEmailComposer(),
+      ],
+    );
+  }
+
+  Widget _buildEmailComposer() {
+    return Container(
+      color: Color(0xFFF6AE2D),
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          _buildTextField(_recipientController, "To"),
+          SizedBox(height: 10),
+          _buildTextField(_subjectController, "Subject"),
+          SizedBox(height: 10),
+          _buildTextField(_bodyController, "Compose email...", maxLines: 5),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: _sendEmail,
+            child: Text("Send"),
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF227C9D)),
+          ),
+        ],
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget _buildDivider() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    child: Divider(
-      thickness: 1.0,
-      color: Colors.black,
-    ),
-  );
-}
+  Widget _buildTextField(TextEditingController controller, String label, {int maxLines = 1}) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLines,
+      decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+    );
+  }
 
-@override
-Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Mail Manager"),
-      ),
+      appBar: AppBar(title: Text("Mail Manager")),
       body: Row(
         children: [
           Container( // Sidebar
@@ -122,71 +166,7 @@ Widget build(BuildContext context) {
             ),
           ),
           // Main Content
-          Expanded(
-            child: Column(
-              children: [
-                // Mail List
-                Expanded(
-                  child: Container(
-                    color: Color(0xFF7FD1B9),
-                    child: ListView.builder(
-                      itemCount: 10, // Placeholder for emails
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text("Mail Subject $index"),
-                          subtitle: Text("Preview of the mail content."),
-                          onTap: () {
-                            // Add logic to display email
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // Mail Composer
-                Container(
-                  color: Color(0xFFF6AE2D),
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: _recipientController,
-                        decoration: InputDecoration(
-                          labelText: "To",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        controller: _subjectController,
-                        decoration: InputDecoration(
-                          labelText: "Subject",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        controller: _bodyController,
-                        maxLines: 5,
-                        decoration: InputDecoration(
-                          labelText: "Compose email...",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: _sendEmail,
-                        child: Text("Send"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF227C9D),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Expanded(child: _buildMainContent()),
         ],
       ),
     );
