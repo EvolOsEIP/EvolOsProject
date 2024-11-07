@@ -5,13 +5,12 @@ import 'new_mail.dart';
 import 'spam.dart';
 import 'profile.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
-void sendMail () async {
-  String username = 'sebEvolOs@gmail.com';
-  String password = 'password';
-
+void sendEmail(String username, String password) async {
   final smtpServer = gmail(username, password);
   // Use the SmtpServer class to configure an SMTP server:
   // final smtpServer = SmtpServer('smtp.domain.com');
@@ -58,12 +57,12 @@ void sendMail () async {
     ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
     ..text = 'This is the plain text.\nThis is line 2 of the text part.'
     ..html =
-        '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>'
-    ..attachments = [
-      FileAttachment(File('exploits_of_a_mom.png'))
-        ..location = Location.inline
-        ..cid = '<myimg@3.141>'
-    ];
+        '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>';
+  // ..attachments = [
+  //   FileAttachment(File('exploits_of_a_mom.png'))
+  // ..location = Location.inline
+  // ..cid = '<myimg@3.141>'
+  // ];
 
   final sendReport2 = await send(equivalentMessage, smtpServer);
 
@@ -82,9 +81,14 @@ void sendMail () async {
   await connection.close();
 }
 
-void main() {
-  sendEmail();
-  runApp(MailManagerApp());
+void main() async {
+  await dotenv.load();
+  print(dotenv.env['GMAIL_USERMAIL']);
+  print(dotenv.env['GMAIL_PASSWORD']);
+  print(dotenv.env['FOO']);
+  sendEmail(dotenv.env['GMAIL_USERMAIL'].toString(),
+      dotenv.env['GMAIL_PASSWORD'].toString());
+  // runApp(MailManagerApp());
 }
 
 class MailManagerApp extends StatelessWidget {
@@ -104,7 +108,6 @@ class MailManagerHome extends StatefulWidget {
 }
 
 class _MailManagerState extends State<MailManagerHome> {
-
   /* Side bar code */
   String _selectedItem = "New Mail"; //default page display
   String? _hoveredItem;
@@ -161,7 +164,8 @@ class _MailManagerState extends State<MailManagerHome> {
       ),
       body: Row(
         children: [
-          Container( // Sidebar
+          Container(
+            // Sidebar
             width: 200,
             color: Color(0xFFCCB0A3),
             child: Column(
@@ -183,5 +187,4 @@ class _MailManagerState extends State<MailManagerHome> {
       ),
     );
   }
-
 }
