@@ -52,58 +52,41 @@ class _NewMailState extends State<NewMail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // field recipient
             Row(
               children: [
                 // Champ "To"
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Text("To: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
-                        const SizedBox(width: 5),
-                        SizedBox(
-                          width: 430,
-                          height: 45,
-                          child: _buildTextField(_recipientController, "The mail recipient", hintText: "ex: nameof.therecipient@mail.com"),
-                        ),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Text("To: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: _buildTextField(_recipientController, "The mail recipient", hintText: "ex: nameof.therecipient@mail.com"),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
                 // Champ "Cc"
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Text("Cc: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
-                        const SizedBox(width: 5),
-                        SizedBox(
-                          width: 430,
-                          height: 45,
-                          child: _buildTextField(_ccController, "The recipient who receives a copy",  hintText: "ex: nameof.copypersonn@mail.com"),
-                        ),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Text("Cc: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                      const SizedBox(width: 5),
+                      Expanded(child: _buildTextField(_ccController, "The recipient who receives a copy",  hintText: "ex: nameof.copypersonn@mail.com")),
+                    ],
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
 
-            // Champ Subject
+            // Field Subject
             Row(
               children: [
                 const Text("Re: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
                 const SizedBox(width: 5),
-                SizedBox(
-                  width: 935,
-                  height: 45,
-                  child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event"),
-                ),
+                Expanded(child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event")),
               ],
             ),
             const SizedBox(height: 10),
@@ -113,7 +96,6 @@ class _NewMailState extends State<NewMail> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Zone de rédaction
                   Expanded(
                     flex: 4,
                     child: Column(
@@ -141,7 +123,7 @@ class _NewMailState extends State<NewMail> {
                     );
                   },
                   icon: const Icon(Icons.attach_file),
-                  label: const Text("Pièce jointe"),
+                  label: const Text("Attachment"),
                 ),
                 ElevatedButton(
                   onPressed: _sendEmail,

@@ -108,5 +108,4 @@ class _MailManagerState extends State<MailManagerHome> {
       ),
     );
   }
-
 }
