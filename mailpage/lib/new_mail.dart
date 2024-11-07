@@ -100,9 +100,9 @@ class _NewMailState extends State<NewMail> {
                     flex: 4,
                     child: Column(
                       children: [
-                        Expanded(child: _buildTextField(_bodyController, "Compose email...", maxLines: 10)),
+                        Expanded(child: _buildTextField(_bodyController, "Email body", maxLines: 15, hintText: "Type your email content here.\nEx: Dear X, I would like to ...")),
                         const SizedBox(height: 10),
-                        _buildTextField(_signatureController, "Signature", maxLines: 2),
+                        _buildTextField(_signatureController, "Signature", maxLines: 3, hintText: "e.g., John Doe\nCEO, Company Name"),
                       ],
                     ),
                   ),
@@ -112,7 +112,7 @@ class _NewMailState extends State<NewMail> {
               ),
             ),
 
-            // Boutons en bas
+            // Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -142,8 +142,8 @@ class _NewMailState extends State<NewMail> {
     return Container(
       width: 50,
       color: const Color(0xFFEDEDED),
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
             icon: Icon(Icons.format_bold, color: _isBold ? Colors.black : Colors.grey),
@@ -174,6 +174,8 @@ class _NewMailState extends State<NewMail> {
         hintText: hintText,
         hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
         border: OutlineInputBorder(),
+        alignLabelWithHint: true,
+        contentPadding: EdgeInsets.all(10)
       ),
       style: TextStyle(
         fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
