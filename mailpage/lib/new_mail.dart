@@ -19,10 +19,20 @@ class _NewMailState extends State<NewMail> {
   bool _isBold = false;
   bool _isItalic = false;
   bool _isUnderlined = false;
+  bool _isHighlighted = false;
+  Color _textColor = Colors.black;
+
+  final List<Color> _colorPalette = [Colors.black, Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.brown, Colors.grey];
 
   void _toggleBold() => setState(() => _isBold = !_isBold);
   void _toggleItalic() => setState(() => _isItalic = !_isItalic);
   void _toggleUnderline() => setState(() => _isUnderlined = !_isUnderlined);
+  void _toggleHighlight() => setState(() => _isHighlighted = !_isHighlighted);
+  void _changeTextColor(Color color) {
+    setState(() {
+      _textColor = color;
+    });
+  }
 
   Future<void> _sendEmail() async {
     final result = await _emailService.sendEmail(
@@ -159,6 +169,28 @@ class _NewMailState extends State<NewMail> {
             icon: Icon(Icons.format_underline, color: _isUnderlined ? Colors.black : Colors.grey),
             onPressed: _toggleUnderline,
             tooltip: 'Underline',
+          ),
+          PopupMenuButton<Color>(
+            icon: Icon(Icons.color_lens, color: _textColor),
+            onSelected: _changeTextColor,
+            itemBuilder: (BuildContext context) {
+              return _colorPalette.map((Color color) {
+                return PopupMenuItem<Color>(
+                  value: color,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: Colors.black, width: 0.5)),
+                  ),
+                );
+              }).toList();
+            },
+            tooltip: 'Color'
+          ),
+          IconButton(
+            icon: Icon(Icons.highlight, color: _isHighlighted ? Colors.yellow : Colors.grey),
+            onPressed: _toggleHighlight,
+            tooltip: 'Highlight',
           ),
         ],
       ),
