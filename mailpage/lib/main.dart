@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'mail_service.dart';
+import 'mail_sender.dart';
 import 'inbox.dart';
 import 'new_mail.dart';
 import 'spam.dart';
 import 'profile.dart';
 
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
+  MailSender mailSender = MailSender();
+  mailSender.SetMailData(dotenv.env['GMAIL_USERMAIL'].toString(), 'Seb EvolOs',
+      dotenv.env['GMAIL_PASSWORD'].toString(), 'sebastien.nourry@epitech.eu');
+  // mailSender.sendEmail();
   runApp(MailManagerApp());
 }
 
@@ -29,7 +34,6 @@ class MailManagerHome extends StatefulWidget {
 }
 
 class _MailManagerState extends State<MailManagerHome> {
-
   /* Side bar code */
   String _selectedItem = "New Mail"; //default page display
   String? _hoveredItem;
@@ -86,7 +90,8 @@ class _MailManagerState extends State<MailManagerHome> {
       ),
       body: Row(
         children: [
-          Container( // Sidebar
+          Container(
+            // Sidebar
             width: 200,
             color: Color(0xFFCCB0A3),
             child: Column(
