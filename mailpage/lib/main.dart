@@ -5,9 +5,6 @@ import 'new_mail.dart';
 import 'spam.dart';
 import 'profile.dart';
 
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-
 void main() {
   runApp(MailManagerApp());
 }
@@ -29,7 +26,6 @@ class MailManagerHome extends StatefulWidget {
 }
 
 class _MailManagerState extends State<MailManagerHome> {
-
   /* Side bar code */
   String _selectedItem = "New Mail"; //default page display
   String? _hoveredItem;
@@ -86,7 +82,8 @@ class _MailManagerState extends State<MailManagerHome> {
       ),
       body: Row(
         children: [
-          Container( // Sidebar
+          Container(
+            // Sidebar
             width: 200,
             color: Color(0xFFCCB0A3),
             child: Column(

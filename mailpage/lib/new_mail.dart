@@ -44,6 +44,12 @@ class _NewMailState extends State<NewMail> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
   }
 
+  Future<void> _addAttachment() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Attach file feature coming soon!')),
+    );
+  }
+
   @override
   void dispose() {
     _recipientController.dispose();
@@ -99,7 +105,7 @@ class _NewMailState extends State<NewMail> {
                 Expanded(child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event")),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
             // Zone de rédaction et barre d'outils
             Expanded(
@@ -127,11 +133,7 @@ class _NewMailState extends State<NewMail> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton.icon(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Attach file feature coming soon!')),
-                    );
-                  },
+                  onPressed: _addAttachment,
                   icon: const Icon(Icons.attach_file),
                   label: const Text("Attachment"),
                 ),
