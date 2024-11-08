@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mail_service.dart';
+import 'mail_sender.dart';
 import 'inbox.dart';
 import 'new_mail.dart';
 import 'spam.dart';
@@ -7,88 +8,13 @@ import 'profile.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-
-void sendEmail(String username, String password) async {
-  final smtpServer = gmail(username, password);
-  // Use the SmtpServer class to configure an SMTP server:
-  // final smtpServer = SmtpServer('smtp.domain.com');
-  // See the named arguments of SmtpServer for further configuration
-  // options.
-
-  // Create our message.
-  final message = Message()
-    ..from = Address(username, 'Seb EvolOs')
-    ..recipients.add('sebastien.nourry@epitech.eu')
-    ..ccRecipients
-        .addAll(['appoline.fontaine@epitech.eu', 'clement.lagier@epitech.eu'])
-    //..bccRecipients.add(Address('clement.lagier@epitech.eu'))
-    ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
-    ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-    ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
-
-  try {
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-  } on MailerException catch (e) {
-    print('Message not sent.');
-    for (var p in e.problems) {
-      print('Problem: ${p.code}: ${p.msg}');
-    }
-  }
-  // DONE
-
-  // Let's send another message using a slightly different syntax:
-  //
-  // Addresses without a name part can be set directly.
-  // For instance `..recipients.add('destination@example.com')`
-  // If you want to display a name part you have to create an
-  // Address object: `new Address('destination@example.com', 'Display name part')`
-  // Creating and adding an Address object without a name part
-  // `new Address('destination@example.com')` is equivalent to
-  // adding the mail address as `String`.
-  final equivalentMessage = Message()
-    ..from = Address(username, 'Your name 😀')
-    ..recipients.add(Address('destination@example.com'))
-    ..ccRecipients
-        .addAll([Address('destCc1@example.com'), 'destCc2@example.com'])
-    ..bccRecipients.add('bccAddress@example.com')
-    ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
-    ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-    ..html =
-        '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>';
-  // ..attachments = [
-  //   FileAttachment(File('exploits_of_a_mom.png'))
-  // ..location = Location.inline
-  // ..cid = '<myimg@3.141>'
-  // ];
-
-  final sendReport2 = await send(equivalentMessage, smtpServer);
-
-  // Sending multiple messages with the same connection
-  //
-  // Create a smtp client that will persist the connection
-  var connection = PersistentConnection(smtpServer);
-
-  // Send the first message
-  await connection.send(message);
-
-  // send the equivalent message
-  await connection.send(equivalentMessage);
-
-  // close the connection
-  await connection.close();
-}
-
 void main() async {
   await dotenv.load();
-  print(dotenv.env['GMAIL_USERMAIL']);
-  print(dotenv.env['GMAIL_PASSWORD']);
-  print(dotenv.env['FOO']);
-  sendEmail(dotenv.env['GMAIL_USERMAIL'].toString(),
-      dotenv.env['GMAIL_PASSWORD'].toString());
-  // runApp(MailManagerApp());
+  MailSender mailSender = MailSender();
+  mailSender.SetMailData(dotenv.env['GMAIL_USERMAIL'].toString(), 'Seb EvolOs',
+      dotenv.env['GMAIL_PASSWORD'].toString(), 'sebastien.nourry@epitech.eu');
+  // mailSender.sendEmail();
+  runApp(MailManagerApp());
 }
 
 class MailManagerApp extends StatelessWidget {
