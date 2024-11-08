@@ -11,6 +11,11 @@ class MailSender {
   List<dynamic> copyReceiver = [];
   List<dynamic> blindCopyReceiver = [];
   final message = Message();
+  late final SmtpServer smtpServer;
+
+  void setSmtpServer(String email, String password) {
+    smtpServer = gmail(email, password);
+  }
 
   void SetMailData(
       String email, String username, String password, String receiver,
@@ -30,7 +35,6 @@ class MailSender {
     print(email);
     print(username);
     print(password);
-    final smtpServer = gmail(email, password);
     message
       ..from = Address(email, username)
       ..recipients.add(Address(receiver))
@@ -48,10 +52,10 @@ class MailSender {
         print('Problem: ${p.code}: ${p.msg}');
       }
     }
-    var connection = PersistentConnection(smtpServer);
-
-    await connection.send(message);
-
-    await connection.close();
+    // var connection = PersistentConnection(smtpServer);
+//
+    // await connection.send(message);
+//
+    // await connection.close();
   }
 }
