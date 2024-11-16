@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'mail_service.dart';
-import 'package:file_picker/file_picker.dart';
+import 'mail_sender.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NewMail extends StatefulWidget {
   NewMail({Key? key}) : super(key: key);
@@ -45,25 +46,19 @@ class _NewMailState extends State<NewMail> {
   }
 
   Future<void> _sendEmail() async {
-    final result = await _emailService.sendEmail(
-      recipient: _recipientController.text,
-      subject: _subjectController.text,
-      body: _bodyController.text,
+    await dotenv.load();
+    MailSender mailSender = MailSender();
+    mailSender.setSmtpServer(dotenv.env['GMAIL_USERMAIL'].toString(),
+        dotenv.env['GMAIL_PASSWORD'].toString());
+    mailSender.SetMailData(
+      dotenv.env['GMAIL_USERMAIL'].toString(),
+      'Seb EvolOs',
+      dotenv.env['GMAIL_PASSWORD'].toString(),
+      _recipientController.text,
     );
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
-  }
-
-  Future<void> _addAttachment() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      // Get the selected file
-      String? filePath = result.files.single.path;
-      print('File picked: $filePath');
-    } else {
-      print('File picking canceled.');
-    }
+    mailSender.subject = _subjectController.text;
+    mailSender.mailContent = _bodyController.text;
+    mailSender.sendEmail();
   }
 
   @override
@@ -141,8 +136,9 @@ class _NewMailState extends State<NewMail> {
                         hintText: "ex: About the tomorrow's event")),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
 
+            // Zone de rédaction et barre d'outils
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +171,12 @@ class _NewMailState extends State<NewMail> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton.icon(
-                  onPressed: _addAttachment,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Attach file feature coming soon!')),
+                    );
+                  },
                   icon: const Icon(Icons.attach_file),
                   label: const Text("Attachment"),
                 ),
