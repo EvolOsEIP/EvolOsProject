@@ -57,19 +57,25 @@ class _InboxState extends State<Inbox> {
         emailSubjects.add(subject ?? 'No Subject');
         emailPreviews.add(preview ?? 'No Preview');
       }
+<<<<<<< HEAD
       displayMails();
+=======
+>>>>>>> fc5c9a7 ([UPDATE] When clicking on the Inbox button, the 10 last emails are listed)
       // Close the connection
       await imapClient.logout();
     } catch (e) {
       print("Error fetching emails: $e");
     }
   }
+<<<<<<< HEAD
 
   void displayMails() {
     setState(() {});
 
     // display the email subjects and previews on the ap
   }
+=======
+>>>>>>> fc5c9a7 ([UPDATE] When clicking on the Inbox button, the 10 last emails are listed)
 
   @override
   Widget build(BuildContext context) {
