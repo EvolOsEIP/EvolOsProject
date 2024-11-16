@@ -39,6 +39,7 @@ dependencies:
   http: ^1.2.2
   dotenv: ^4.2.0
   flutter_dotenv: ^5.2.1
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:
