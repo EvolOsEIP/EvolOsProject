@@ -26,7 +26,7 @@ class _InboxState extends State<Inbox> {
     _email = dotenv.env['GMAIL_USERNAME']!;
     _appPassword = dotenv.env['GMAIL_APP_PASSWORD']!;
 
-    _fetchEmails();
+    await _fetchEmails();
   }
 
   Future<void> _fetchEmails() async {
@@ -47,16 +47,16 @@ class _InboxState extends State<Inbox> {
       final FetchImapResult result = await imapClient.fetchRecentMessages(
           messageCount: 10, criteria: "ALL");
 
-      // FetchImapResult used in the for loop must implement the Iterable<dynamic> interface
-
-      // loop to count to 19
       // Process fetched messages
-      for (final message in result.messages) {
-        final subject = message.envelope?.subject;
-        final preview = message.body?.toString();
-        emailSubjects.add(subject ?? 'No Subject');
-        emailPreviews.add(preview ?? 'No Preview');
-      }
+      setState(() {
+        for (final message in result.messages) {
+          final subject = message.envelope?.subject;
+          final preview = message.body?.toString();
+          emailSubjects.add(subject ?? 'No Subject');
+          emailPreviews.add(preview ?? 'No Preview');
+        }
+      });
+
       // Close the connection
       await imapClient.logout();
     } catch (e) {
@@ -84,9 +84,6 @@ class _InboxState extends State<Inbox> {
                 return ListTile(
                   title: Text(emailSubjects[index]),
                   subtitle: Text(emailPreviews[index]),
-                  onTap: () {
-                    // Handle onTap action, e.g., open the email
-                  },
                 );
               },
             ),
