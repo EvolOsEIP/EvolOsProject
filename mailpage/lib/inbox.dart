@@ -57,11 +57,18 @@ class _InboxState extends State<Inbox> {
         emailSubjects.add(subject ?? 'No Subject');
         emailPreviews.add(preview ?? 'No Preview');
       }
+      displayMails();
       // Close the connection
       await imapClient.logout();
     } catch (e) {
       print("Error fetching emails: $e");
     }
+  }
+
+  void displayMails() {
+    setState(() {});
+
+    // display the email subjects and previews on the ap
   }
 
   @override
