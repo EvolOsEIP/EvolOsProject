@@ -138,6 +138,7 @@ class _NewMailState extends State<NewMail> {
             ),
             const SizedBox(height: 10),
 
+            // Zone de rédaction et barre d'outils
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
