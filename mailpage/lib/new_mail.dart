@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mail_service.dart';
+import 'package:file_picker/file_picker.dart';
 
 class NewMail extends StatefulWidget {
   NewMail({Key? key}) : super(key: key);
@@ -22,7 +23,16 @@ class _NewMailState extends State<NewMail> {
   bool _isHighlighted = false;
   Color _textColor = Colors.black;
 
-  final List<Color> _colorPalette = [Colors.black, Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.brown, Colors.grey];
+  final List<Color> _colorPalette = [
+    Colors.black,
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.purple,
+    Colors.brown,
+    Colors.grey
+  ];
 
   void _toggleBold() => setState(() => _isBold = !_isBold);
   void _toggleItalic() => setState(() => _isItalic = !_isItalic);
@@ -45,9 +55,15 @@ class _NewMailState extends State<NewMail> {
   }
 
   Future<void> _addAttachment() async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Attach file feature coming soon!')),
-    );
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      // Get the selected file
+      String? filePath = result.files.single.path;
+      print('File picked: $filePath');
+    } else {
+      print('File picking canceled.');
+    }
   }
 
   @override
@@ -74,10 +90,16 @@ class _NewMailState extends State<NewMail> {
                 Expanded(
                   child: Row(
                     children: [
-                      const Text("To: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                      const Text("To: ",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400)),
                       const SizedBox(width: 5),
                       Expanded(
-                        child: _buildTextField(_recipientController, "The mail recipient", hintText: "ex: nameof.therecipient@mail.com"),
+                        child: _buildTextField(
+                            _recipientController, "The mail recipient",
+                            hintText: "ex: nameof.therecipient@mail.com"),
                       ),
                     ],
                   ),
@@ -87,9 +109,16 @@ class _NewMailState extends State<NewMail> {
                 Expanded(
                   child: Row(
                     children: [
-                      const Text("Cc: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                      const Text("Cc: ",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400)),
                       const SizedBox(width: 5),
-                      Expanded(child: _buildTextField(_ccController, "The recipient who receives a copy",  hintText: "ex: nameof.copypersonn@mail.com")),
+                      Expanded(
+                          child: _buildTextField(_ccController,
+                              "The recipient who receives a copy",
+                              hintText: "ex: nameof.copypersonn@mail.com")),
                     ],
                   ),
                 ),
@@ -100,14 +129,20 @@ class _NewMailState extends State<NewMail> {
             // Field Subject
             Row(
               children: [
-                const Text("Re: ", style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
+                const Text("Re: ",
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400)),
                 const SizedBox(width: 5),
-                Expanded(child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event")),
+                Expanded(
+                    child: _buildTextField(_subjectController,
+                        "The main topic of your mail, as a title",
+                        hintText: "ex: About the tomorrow's event")),
               ],
             ),
             const SizedBox(height: 15),
 
-            // Zone de rédaction et barre d'outils
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,9 +151,16 @@ class _NewMailState extends State<NewMail> {
                     flex: 4,
                     child: Column(
                       children: [
-                        Expanded(child: _buildTextField(_bodyController, "Email body", maxLines: 15, hintText: "Type your email content here.\nEx: Dear X, I would like to ...")),
+                        Expanded(
+                            child: _buildTextField(
+                                _bodyController, "Email body",
+                                maxLines: 15,
+                                hintText:
+                                    "Type your email content here.\nEx: Dear X, I would like to ...")),
                         const SizedBox(height: 10),
-                        _buildTextField(_signatureController, "Signature", maxLines: 3, hintText: "e.g., John Doe\nCEO, Company Name"),
+                        _buildTextField(_signatureController, "Signature",
+                            maxLines: 3,
+                            hintText: "e.g., John Doe\nCEO, Company Name"),
                       ],
                     ),
                   ),
@@ -139,8 +181,10 @@ class _NewMailState extends State<NewMail> {
                 ),
                 ElevatedButton(
                   onPressed: _sendEmail,
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4A8577)),
-                  child: const Text("Send", style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4A8577)),
+                  child:
+                      const Text("Send", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -158,39 +202,45 @@ class _NewMailState extends State<NewMail> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            icon: Icon(Icons.format_bold, color: _isBold ? Colors.black : Colors.grey),
+            icon: Icon(Icons.format_bold,
+                color: _isBold ? Colors.black : Colors.grey),
             onPressed: _toggleBold,
             tooltip: 'Bold',
           ),
           IconButton(
-            icon: Icon(Icons.format_italic, color: _isItalic ? Colors.black : Colors.grey),
+            icon: Icon(Icons.format_italic,
+                color: _isItalic ? Colors.black : Colors.grey),
             onPressed: _toggleItalic,
             tooltip: 'Italic',
           ),
           IconButton(
-            icon: Icon(Icons.format_underline, color: _isUnderlined ? Colors.black : Colors.grey),
+            icon: Icon(Icons.format_underline,
+                color: _isUnderlined ? Colors.black : Colors.grey),
             onPressed: _toggleUnderline,
             tooltip: 'Underline',
           ),
           PopupMenuButton<Color>(
-            icon: Icon(Icons.color_lens, color: _textColor),
-            onSelected: _changeTextColor,
-            itemBuilder: (BuildContext context) {
-              return _colorPalette.map((Color color) {
-                return PopupMenuItem<Color>(
-                  value: color,
-                  child: Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: Colors.black, width: 0.5)),
-                  ),
-                );
-              }).toList();
-            },
-            tooltip: 'Color'
-          ),
+              icon: Icon(Icons.color_lens, color: _textColor),
+              onSelected: _changeTextColor,
+              itemBuilder: (BuildContext context) {
+                return _colorPalette.map((Color color) {
+                  return PopupMenuItem<Color>(
+                    value: color,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black, width: 0.5)),
+                    ),
+                  );
+                }).toList();
+              },
+              tooltip: 'Color'),
           IconButton(
-            icon: Icon(Icons.highlight, color: _isHighlighted ? Colors.yellow : Colors.grey),
+            icon: Icon(Icons.highlight,
+                color: _isHighlighted ? Colors.yellow : Colors.grey),
             onPressed: _toggleHighlight,
             tooltip: 'Highlight',
           ),
@@ -199,22 +249,23 @@ class _NewMailState extends State<NewMail> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, {int maxLines = 1, String? hintText}) {
+  Widget _buildTextField(TextEditingController controller, String label,
+      {int maxLines = 1, String? hintText}) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
       decoration: InputDecoration(
-        labelText: label.isEmpty ? null : label,
-        hintText: hintText,
-        hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-        border: OutlineInputBorder(),
-        alignLabelWithHint: true,
-        contentPadding: EdgeInsets.all(10)
-      ),
+          labelText: label.isEmpty ? null : label,
+          hintText: hintText,
+          hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+          border: OutlineInputBorder(),
+          alignLabelWithHint: true,
+          contentPadding: EdgeInsets.all(10)),
       style: TextStyle(
         fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
         fontStyle: _isItalic ? FontStyle.italic : FontStyle.normal,
-        decoration: _isUnderlined ? TextDecoration.underline : TextDecoration.none,
+        decoration:
+            _isUnderlined ? TextDecoration.underline : TextDecoration.none,
       ),
     );
   }
