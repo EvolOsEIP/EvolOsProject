@@ -1,29 +1,5 @@
 import 'package:flutter/material.dart';
 
-Future<void> showPopup(BuildContext context, String description, String buttonText, VoidCallback onPressed) {
-  return showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Step-by-Step Tutorial"),
-        content: Text(description),
-        actions: [
-          TextButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Go NEXT!')),
-              );
-            },
-            child: Text(buttonText),
-          ),
-        ],
-      );
-    },
-  );
-}
-
 Widget _buildStepOverlay({
   required BuildContext context,
   required Widget child,

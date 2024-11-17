@@ -9,6 +9,7 @@ class NewMail extends StatefulWidget {
   void start_tuto(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('New Mail Tutorial'),
@@ -16,7 +17,7 @@ class NewMail extends StatefulWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Close'),
+              child: Text("I'm ready to start !"),
             ),
           ],
         );
@@ -36,32 +37,21 @@ class _NewMailState extends State<NewMail> {
   final TextEditingController _bodyController = TextEditingController();
   final TextEditingController _signatureController = TextEditingController();
 
-  bool _isBold = false;
-  bool _isItalic = false;
-  bool _isUnderlined = false;
-  bool _isHighlighted = false;
-  Color _textColor = Colors.black;
+  Map<String, dynamic> textStyles = {
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isHighlighted": false,
+    "textColor": Colors.black,
+  };
 
-  final List<Color> _colorPalette = [
-    Colors.black,
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.brown,
-    Colors.grey
-  ];
+  final List<Color> _colorPalette = [Colors.black, Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.brown, Colors.grey];
 
-  void _toggleBold() => setState(() => _isBold = !_isBold);
-  void _toggleItalic() => setState(() => _isItalic = !_isItalic);
-  void _toggleUnderline() => setState(() => _isUnderlined = !_isUnderlined);
-  void _toggleHighlight() => setState(() => _isHighlighted = !_isHighlighted);
-  void _changeTextColor(Color color) {
-    setState(() {
-      _textColor = color;
-    });
-  }
+  void _toggleBold() => setState(() => textStyles["isBold"] = !textStyles["isBold"]);
+  void _toggleItalic() => setState(() => textStyles["isItalic"] = !textStyles["isItalic"]);
+  void _toggleUnderline() => setState(() => textStyles["isUnderlined"] = !textStyles["isUnderlined"]);
+  void _toggleHighlight() => setState(() => textStyles["isHighlighted"] = !textStyles["isHighlighted"]);
+  void _changeTextColor(Color color) => setState(() => textStyles["textColor"] = color);
 
   Future<void> _sendEmail() async {
     await dotenv.load();
@@ -204,45 +194,54 @@ class _NewMailState extends State<NewMail> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            icon: Icon(Icons.format_bold,
-                color: _isBold ? Colors.black : Colors.grey),
+            icon: Icon(
+              Icons.format_bold,
+              color: textStyles["isBold"] ? Colors.black : Colors.grey,
+            ),
             onPressed: _toggleBold,
             tooltip: 'Bold',
           ),
           IconButton(
-            icon: Icon(Icons.format_italic,
-                color: _isItalic ? Colors.black : Colors.grey),
+            icon: Icon(
+              Icons.format_italic,
+              color: textStyles["isItalic"] ? Colors.black : Colors.grey,
+            ),
             onPressed: _toggleItalic,
             tooltip: 'Italic',
           ),
           IconButton(
-            icon: Icon(Icons.format_underline,
-                color: _isUnderlined ? Colors.black : Colors.grey),
+            icon: Icon(
+              Icons.format_underline,
+              color: textStyles["isUnderlined"] ? Colors.black : Colors.grey,
+            ),
             onPressed: _toggleUnderline,
             tooltip: 'Underline',
           ),
           PopupMenuButton<Color>(
-              icon: Icon(Icons.color_lens, color: _textColor),
-              onSelected: _changeTextColor,
-              itemBuilder: (BuildContext context) {
-                return _colorPalette.map((Color color) {
-                  return PopupMenuItem<Color>(
-                    value: color,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black, width: 0.5)),
-                    ),
-                  );
-                }).toList();
-              },
-              tooltip: 'Color'),
+            icon: Icon(Icons.color_lens, color: textStyles["textColor"]),
+            onSelected: _changeTextColor,
+            itemBuilder: (BuildContext context) {
+              return _colorPalette.map((Color color) {
+                return PopupMenuItem<Color>(
+                  value: color,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black, width: 0.5)),
+                  ),
+                );
+              }).toList();
+            },
+            tooltip: 'Color',
+          ),
           IconButton(
-            icon: Icon(Icons.highlight,
-                color: _isHighlighted ? Colors.yellow : Colors.grey),
+            icon: Icon(
+              Icons.highlight,
+              color: textStyles["isHighlighted"] ? Colors.yellow : Colors.grey,
+            ),
             onPressed: _toggleHighlight,
             tooltip: 'Highlight',
           ),
@@ -256,17 +255,18 @@ class _NewMailState extends State<NewMail> {
       controller: controller,
       maxLines: maxLines,
       decoration: InputDecoration(
-          labelText: label.isEmpty ? null : label,
-          hintText: hintText,
-          hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-          border: OutlineInputBorder(),
-          alignLabelWithHint: true,
-          contentPadding: EdgeInsets.all(10)),
+        labelText: label.isEmpty ? null : label,
+        hintText: hintText,
+        hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+        border: OutlineInputBorder(),
+        alignLabelWithHint: true,
+        contentPadding: EdgeInsets.all(10),
+      ),
       style: TextStyle(
-        fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
-        fontStyle: _isItalic ? FontStyle.italic : FontStyle.normal,
-        decoration:
-            _isUnderlined ? TextDecoration.underline : TextDecoration.none,
+        fontWeight: textStyles["isBold"] ? FontWeight.bold : FontWeight.normal,
+        fontStyle: textStyles["isItalic"] ? FontStyle.italic : FontStyle.normal,
+        decoration: textStyles["isUnderlined"] ? TextDecoration.underline : TextDecoration.none,
+        color: textStyles["textColor"],
       ),
     );
   }
