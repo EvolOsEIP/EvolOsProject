@@ -68,18 +68,29 @@ class _InboxState extends State<Inbox> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-        ),
         Expanded(
           child: Container(
-            color: Color(0xFF7FD1B9),
-            child: ListView.builder(
+            color: Color.fromARGB(255, 210, 216, 214),
+            child: ListView.separated(
               itemCount: emailSubjects.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(emailSubjects[index]),
-                  subtitle: Text(emailPreviews[index]),
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16.0, right: 16.0), // Add left and right margin
+                  child: ListTile(
+                    title: Text(emailSubjects[index]),
+                    subtitle: Text(emailPreviews[index]),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16.0, right: 16.0), // Add left and right margin
+                  child: Divider(
+                    color: Colors.grey,
+                    thickness: 1.0,
+                  ),
                 );
               },
             ),
