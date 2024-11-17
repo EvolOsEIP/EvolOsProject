@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'prompt.dart';
-import 'mail_manager.dart';
+import 'mainPages/page_manager.dart';
 
 void main() {
   runApp(MailManagerApp());

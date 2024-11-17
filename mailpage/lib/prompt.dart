@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'mail_manager.dart';
+import 'mainPages/page_manager.dart';
 
 class PromptPage extends StatefulWidget {
   @override

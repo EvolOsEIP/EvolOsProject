@@ -6,6 +6,24 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class NewMail extends StatefulWidget {
   NewMail({Key? key}) : super(key: key);
 
+  void start_tuto(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('New Mail Tutorial'),
+          content: Text('This is the tutorial for the written section.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   _NewMailState createState() => _NewMailState();
 }

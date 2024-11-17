@@ -1,8 +1,7 @@
-import 'inbox.dart';
-import 'new_mail.dart';
-import 'spam.dart';
-import 'profile.dart';
-import 'mail_service.dart';
+import 'inbox/inbox.dart';
+import 'newMail/new_mail.dart';
+import 'spam/spam.dart';
+import 'profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class MailManagerApp extends StatelessWidget {
@@ -22,6 +21,11 @@ class MailManagerHome extends StatefulWidget {
 }
 
 class _MailManagerState extends State<MailManagerHome> {
+  final Inbox _inboxInstance = Inbox();
+  final NewMail _newMailInstance = NewMail();
+  final Spam _spamInstance = Spam();
+  final Profile _profileInstance = Profile();
+
   /* Side bar code */
   String _selectedItem = "New Mail"; //default page display
   String? _hoveredItem;
@@ -70,28 +74,22 @@ class _MailManagerState extends State<MailManagerHome> {
   }
 
   void _startTutorial() {
-    String message;
     switch (_selectedItem) {
       case "Inbox":
-        message = "Tutorial for Inbox coming soon!";
+        _inboxInstance.start_tuto(context);
         break;
       case "New Mail":
-        message = "Tutorial for New Mail coming soon!";
+        _newMailInstance.start_tuto(context);
         break;
       case "Spam":
-        message = "Tutorial for Spam coming soon!";
+        _spamInstance.start_tuto(context);
         break;
       case "Profile":
-        message = "Tutorial for Profile coming soon!";
+        _profileInstance.start_tuto(context);
         break;
       default:
-        message = "";
         break;
     }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
   }
 
   @override

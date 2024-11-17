@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
 
 class Inbox extends StatelessWidget {
+
+  void start_tuto(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Inbox Tutorial'),
+          content: Text('This is the tutorial for the Inbox section.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
