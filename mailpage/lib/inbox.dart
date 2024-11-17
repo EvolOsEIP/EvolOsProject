@@ -78,7 +78,11 @@ class _InboxState extends State<Inbox> {
                   padding: const EdgeInsets.only(
                       left: 16.0, right: 16.0), // Add left and right margin
                   child: ListTile(
-                    title: Text(emailSubjects[index]),
+                    title: Text(
+                      emailSubjects[index],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold), // Make the subject bold
+                    ),
                     subtitle: Text(emailPreviews[index]),
                   ),
                 );
