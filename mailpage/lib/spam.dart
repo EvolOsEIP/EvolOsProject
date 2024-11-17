@@ -87,10 +87,6 @@ class _SpamState extends State<Spam> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Selected: Spam",
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-          ),
         ),
         Expanded(
           child: Container(

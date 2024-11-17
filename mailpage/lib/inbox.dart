@@ -70,10 +70,6 @@ class _InboxState extends State<Inbox> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Selected: Inbox",
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-          ),
         ),
         Expanded(
           child: Container(
