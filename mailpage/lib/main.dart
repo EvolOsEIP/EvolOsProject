@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'prompt.dart';
+import 'mail_manager.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MailManagerApp());
 }
 
 class MyApp extends StatelessWidget {
