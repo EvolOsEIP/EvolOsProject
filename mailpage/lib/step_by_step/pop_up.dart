@@ -1,94 +1,155 @@
 import 'package:flutter/material.dart';
 
-Widget _buildStepOverlay({
-  required BuildContext context,
-  required Widget child,
-  required Widget focusWidget,
-  String? overlayText,
-}) {
-  return Stack(
-    children: [
-      // Superposer l'écran grisé
-      Positioned.fill(
-        child: GestureDetector(
-          onTap: () {},  // Empêche les interactions
-          child: Container(
-            color: Colors.black.withOpacity(0.5),  // Effet de gris
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: StepByStepForm(),
+    );
+  }
+}
+
+class StepByStepForm extends StatefulWidget {
+  @override
+  _StepByStepFormState createState() => _StepByStepFormState();
+}
+
+class _StepByStepFormState extends State<StepByStepForm> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+
+  final FocusNode nameFocus = FocusNode();
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode messageFocus = FocusNode();
+
+  int currentStep = 0;
+
+  List<Widget> steps = [];
+  List<FocusNode> focusNodes = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNodes = [nameFocus, emailFocus, messageFocus];
+
+    steps = [
+      buildStep("Nom", nameController, nameFocus),
+      buildStep("Email", emailController, emailFocus),
+      buildStep("Message", messageController, messageFocus),
+    ];
+
+    // Positionne le focus sur le premier champ par défaut
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNodes[currentStep].requestFocus();
+    });
+  }
+
+  Widget buildStep(String label, TextEditingController controller, FocusNode focusNode) {
+    return Column(
+      children: [
+        Text(label, style: TextStyle(fontSize: 20)),
+        TextField(
+          controller: controller,
+          focusNode: focusNode,
+          decoration: InputDecoration(hintText: 'Entrez votre $label'),
+        ),
+      ],
+    );
+  }
+
+  void nextStep() {
+    setState(() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+      }
+    });
+
+    // Change le focus après que l'interface a été mise à jour
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNodes[currentStep].requestFocus();
+    });
+  }
+
+  void sendMessage() {
+    if (nameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        messageController.text.isNotEmpty) {
+      // Ici vous pouvez ajouter votre logique d'envoi de mail
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Message envoyé"),
+          content: Text("Votre message a été envoyé avec succès."),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Formulaire Step-by-Step')),
+      body: Stack(
+        children: [
+          // Voile gris couvrant toute la fenêtre
+          Container(
+            color: Colors.black.withOpacity(0.5),
           ),
-        ),
-      ),
-      // Focus sur l'élément spécifique
-      Positioned(
-        left: 50, // Position de l'élément à mettre en surbrillance
-        top: 100, // Modifier pour le bon positionnement
-        child: Focus(
-          focusNode: FocusNode(), // Tu peux utiliser un FocusNode pour gérer le focus
-          child: child,
-        ),
-      ),
-      // Pop-up de description si nécessaire
-      if (overlayText != null)
-        Positioned(
-          top: 50, // Position du pop-up
-          left: 50,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(20),
-              child: Text(overlayText),
+          // Champ actif mis en avant (sans voile)
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < steps.length; i++)
+                    if (i == currentStep)
+                      Material(
+                        color: Colors.transparent,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Fond blanc pour le champ actif
+                            border: Border.all(color: Colors.blue, width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: steps[i],
+                        ),
+                      )
+                    else
+                    // Les autres champs sont gris
+                      Opacity(
+                        opacity: 0.3,
+                        child: steps[i],
+                      ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: currentStep < steps.length - 1
+                        ? nextStep
+                        : sendMessage,
+                    child: Text(currentStep < steps.length - 1
+                        ? 'Suivant'
+                        : 'Envoyer'),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-    ],
-  );
-}
-
-Future<void> _startTutorial() async {
-  // Étape 1 : Bienvenue
-  await showPopup(
-    context,
-    "Bonjour, bienvenue dans le tuto pour apprendre à envoyer un mail.",
-    "Je commence",
-        () {
-      Navigator.of(context).pop();  // Fermer le pop-up
-      _showFirstStep();
-    },
-  );
-}
-
-void _showFirstStep() {
-  setState(() {
-    _isStepOneActive = true;
-  });
-
-  // Étape 2 : Focus sur le destinataire avec l'écran gris
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Step 1"),
-        content: _buildStepOverlay(
-          context: context,
-          child: _buildTextField(_recipientController, "Destinataire", hintText: "ex: recipent@mail.com"),
-          focusWidget: _recipientController,
-          overlayText: "Tapez le destinataire ici.",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _nextStep();
-            },
-            child: const Text("Suivant"),
-          ),
         ],
-      );
-    },
-  );
-}
-
-void _nextStep() {
-  // Gérer les étapes suivantes ici, en continuant à mettre en surbrillance les autres éléments
+      ),
+    );
+  }
 }
