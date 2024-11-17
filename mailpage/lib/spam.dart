@@ -85,9 +85,6 @@ class _SpamState extends State<Spam> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-        ),
         Expanded(
           child: Container(
             color: Color.fromARGB(255, 210, 216, 214),
