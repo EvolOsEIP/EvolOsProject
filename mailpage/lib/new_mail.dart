@@ -92,9 +92,7 @@ class _NewMailState extends State<NewMail> {
                               fontWeight: FontWeight.w400)),
                       const SizedBox(width: 5),
                       Expanded(
-                        child: _buildTextField(
-                            _recipientController, "The mail recipient",
-                            hintText: "ex: nameof.therecipient@mail.com"),
+                        child: _buildTextField(_recipientController, "The mail recipient", hintText: "ex: nameof.therecipient@mail.com"),
                       ),
                     ],
                   ),
@@ -111,9 +109,7 @@ class _NewMailState extends State<NewMail> {
                               fontWeight: FontWeight.w400)),
                       const SizedBox(width: 5),
                       Expanded(
-                          child: _buildTextField(_ccController,
-                              "The recipient who receives a copy",
-                              hintText: "ex: nameof.copypersonn@mail.com")),
+                          child: _buildTextField(_ccController, "The recipient who receives a copy", hintText: "ex: nameof.copypersonn@mail.com")),
                     ],
                   ),
                 ),
@@ -125,15 +121,9 @@ class _NewMailState extends State<NewMail> {
             Row(
               children: [
                 const Text("Re: ",
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400)),
+                    style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400)),
                 const SizedBox(width: 5),
-                Expanded(
-                    child: _buildTextField(_subjectController,
-                        "The main topic of your mail, as a title",
-                        hintText: "ex: About the tomorrow's event")),
+                Expanded(child: _buildTextField(_subjectController, "The main topic of your mail, as a title", hintText: "ex: About the tomorrow's event")),
               ],
             ),
             const SizedBox(height: 10),
@@ -147,16 +137,9 @@ class _NewMailState extends State<NewMail> {
                     flex: 4,
                     child: Column(
                       children: [
-                        Expanded(
-                            child: _buildTextField(
-                                _bodyController, "Email body",
-                                maxLines: 15,
-                                hintText:
-                                    "Type your email content here.\nEx: Dear X, I would like to ...")),
+                        Expanded(child: _buildTextField(_bodyController, "Email body", maxLines: 15, hintText: "Type your email content here.\nEx: Dear X, I would like to ...")),
                         const SizedBox(height: 10),
-                        _buildTextField(_signatureController, "Signature",
-                            maxLines: 3,
-                            hintText: "e.g., John Doe\nCEO, Company Name"),
+                        _buildTextField(_signatureController, "Signature", maxLines: 3, hintText: "e.g., John Doe\nCEO, Company Name")
                       ],
                     ),
                   ),
@@ -250,8 +233,7 @@ class _NewMailState extends State<NewMail> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label,
-      {int maxLines = 1, String? hintText}) {
+  Widget _buildTextField(TextEditingController controller, String label, {int maxLines = 1, String? hintText}) {
     return TextField(
       controller: controller,
       maxLines: maxLines,

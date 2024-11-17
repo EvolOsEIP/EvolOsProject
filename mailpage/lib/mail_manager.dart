@@ -69,12 +69,66 @@ class _MailManagerState extends State<MailManagerHome> {
     }
   }
 
+  void _startTutorial() {
+    String message;
+    switch (_selectedItem) {
+      case "Inbox":
+        message = "Tutorial for Inbox coming soon!";
+        break;
+      case "New Mail":
+        message = "Tutorial for New Mail coming soon!";
+        break;
+      case "Spam":
+        message = "Tutorial for Spam coming soon!";
+        break;
+      case "Profile":
+        message = "Tutorial for Profile coming soon!";
+        break;
+      default:
+        message = "";
+        break;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mail'),
         backgroundColor: const Color(0xFF4A8577),
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: const Text(
+                'MAIL',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: ElevatedButton(
+                onPressed: _startTutorial,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  "Start Tuto",
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Row(
         children: [
